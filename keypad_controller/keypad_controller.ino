@@ -108,7 +108,6 @@ void finish_config(KeypadConfig *keypad_config) {
 	digitalWrite(KEYPAD_STATE_IRQ, false);
 	
 	//todo: shrink the button array if fewer than max are defined?
-	//in any case subtract one because we will have over-incremented
 	KEYPAD_BUTTONS_NUMBER;	
 
 	delay(2000);
@@ -197,8 +196,6 @@ void service_irq(void) {
 void setup() {
 	Serial.begin(115200);
 
-	//KEYPAD_STATE = 0;
-	uint8_t i;	
 	digitalWrite(SDA, 1);
 	digitalWrite(SCL, 1);
 	Wire.begin(SlaveDeviceId);
