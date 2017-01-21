@@ -1,0 +1,32 @@
+// A very simple protocol definition, consisting of only
+// one message.
+
+syntax = "proto2";
+
+
+message KeypadState{  
+	required uint32 buttonRegister = 1;  
+}
+message KeypadConfig{
+	message KeyConfig{
+		required uint32 pin_no = 1;
+		required uint32 idx =2 ;
+		optional bool pullup = 3 [default = true];
+		optional bool invert = 4 [default = true];
+		optional uint32 debounce = 5 [default = 20];
+	}
+	repeated KeyConfig key_configuration = 1;
+	required uint32 irq_pin = 2;
+	optional uint32 ring_buff_cnt = 3 [default = 10];
+	optional uint32 reporting_delay = 4 [default = 50000];	
+}
+
+message MultipartMessageConfig{
+	required int32 word_size = 1;
+	required int32 word_count = 2;
+}
+
+message MultipartMessage{
+	optional KeypadConfig keypad_config = 1;
+	optional MultipartMessageConfig multipart_message_config = 2;
+}
