@@ -1,4 +1,4 @@
-## A Arduino-based I2C Keypad Controller ##
+## An Arduino-based I2C Keypad Controller ##
 
 ### Overview ###
 
