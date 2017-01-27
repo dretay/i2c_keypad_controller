@@ -1,5 +1,8 @@
 #pragma once
 
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 #include <pb.h>
 #include <pb_common.h>
@@ -26,3 +29,7 @@ bool send_i2c_msg(void* pb_msg, void* i2c_instance, const pb_field_t pb_msg_fiel
 
 //this needs to be implemented as a platform-specific detail
 extern bool i2c_tx(void* i2c_instance, uint8_t i2c_address, uint8_t *message, uint8_t size);
+
+#ifdef __cplusplus
+}
+#endif

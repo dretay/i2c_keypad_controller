@@ -1,7 +1,7 @@
 syntax = "proto2";
 
 message KeypadState{  
-	required uint32 buttonRegister = 1;  
+	required uint32 buttons = 1;  
 }
 message KeypadConfig{
 	message KeyConfig{
