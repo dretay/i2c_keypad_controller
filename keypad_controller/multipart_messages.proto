@@ -1,8 +1,4 @@
-// A very simple protocol definition, consisting of only
-// one message.
-
 syntax = "proto2";
-
 
 message KeypadState{  
 	required uint32 buttonRegister = 1;  
@@ -20,6 +16,7 @@ message KeypadConfig{
 	optional uint32 ring_buff_cnt = 3 [default = 10];
 	optional uint32 reporting_delay = 4 [default = 50000];	
 }
+
 
 message MultipartMessageConfig{
 	required int32 word_size = 1;

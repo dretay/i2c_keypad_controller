@@ -1,1 +1,1 @@
-protoc --nanopb_out=./ keypad_messages.proto
+protoc --nanopb_out=./ multipart_messages.proto

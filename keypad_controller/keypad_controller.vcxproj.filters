@@ -15,10 +15,13 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <None Include="keypad_messages.proto">
+    <None Include="keypad_controller.ino" />
+    <None Include="multipart_messages.proto">
       <Filter>Resource Files</Filter>
     </None>
-    <None Include="keypad_controller.ino" />
+    <None Include="build_models.bat">
+      <Filter>Resource Files</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="__vm\.keypad_controller.vsarduino.h">
@@ -27,9 +30,15 @@
     <ClInclude Include="keypad_messages.pb.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="multipart_i2c.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="keypad_messages.pb.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="multipart_i2c.c">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

@@ -4,11 +4,13 @@
 #include <TimerOne.h>
 #include <PrintEx.h>
 
-#include <pb.h>
-#include <pb_decode.h>
-#include <pb_common.h>
-#include "keypad_messages.pb.h"
+extern "C" {
+#include "multipart_i2c.h"
+}
 
+#ifndef _DEBUG
+#define _DEBUG 1
+#endif
 
 //adding printf support
 StreamEx serial = Serial;
@@ -40,43 +42,6 @@ uint16_t CURRENT_KEYPAD_STATE = 0;
 #define MAX_I2C_MSG_SIZE 32
 
 bool KEYPAD_CONFIGURED = false;
-
-//grabbed verbatim from nanopb union example
-//todo: should this be moved out into a lib?
-const pb_field_t* decode_unionmessage_type(pb_istream_t *stream) {
-	pb_wire_type_t wire_type;
-	uint32_t tag;
-	bool eof;
-
-	while (pb_decode_tag(stream, &wire_type, &tag, &eof)) {
-		if (wire_type == PB_WT_STRING) {
-			const pb_field_t *field;
-			for (field = MultipartMessage_fields; field->tag != 0; field++) {
-				if (field->tag == tag && (field->type & PB_LTYPE_SUBMESSAGE)) {
-					/* Found our field. */
-					return field->ptr;
-				}
-			}
-		}
-
-		/* Wasn't our field.. */
-		pb_skip_field(stream, wire_type);
-	}
-
-	return NULL;
-}
-
-//grabbed verbatim from nanopb union example
-bool decode_unionmessage_contents(pb_istream_t *stream, const pb_field_t fields[], void *dest_struct) {
-	pb_istream_t substream;
-	bool status;
-	if (!pb_make_string_substream(stream, &substream))
-		return false;
-
-	status = pb_decode(&substream, fields, dest_struct);
-	pb_close_string_substream(stream, &substream);
-	return status;
-}
 
 bool pin_listing_callback(pb_istream_t *stream, const pb_field_t *field, void **arg){
     
@@ -115,6 +80,7 @@ void finish_config(KeypadConfig *keypad_config) {
 }
 
 void receiveCallback(int in_byte_cnt) {	
+	serial.printf("rcvd %d bytes over i2c\n",in_byte_cnt); 
 	uint8_t i2c_buffer[MAX_I2C_MSG_SIZE] = { 0 };
 	int i2c_buffer_idx = 0;
 	bool status = false;
