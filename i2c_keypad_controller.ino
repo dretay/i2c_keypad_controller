@@ -49,9 +49,7 @@ bool pin_listing_callback(pb_istream_t *stream, const pb_field_t *field, void **
 	if (!pb_decode(stream, KeypadConfig_KeyConfig_fields, &key_configuration))
 		return false;
 
-	pinMode(key_configuration.pin_no, OUTPUT);
-
-	serial.printf("(PIN) %d pullup: %d invert: %d debounce %d\n", key_configuration.pin_no, key_configuration.pullup, key_configuration.invert, key_configuration.debounce);
+	pinMode(key_configuration.pin_no, OUTPUT);	
 
 	keypad_buttons[KEYPAD_BUTTONS_NUMBER] = new Button(key_configuration.pin_no, key_configuration.pullup, key_configuration.invert, key_configuration.debounce);
 	KEYPAD_BUTTONS_NUMBER++;
@@ -113,8 +111,7 @@ void receiveCallback(int in_byte_cnt) {
 			stream = pb_istream_from_buffer(multipart_i2c.buffer, multipart_i2c.buffer_offset);
 			decode_unionmessage_type(&stream);
 			status = decode_unionmessage_contents(&stream, KeypadConfig_fields, &keypad_configuration);
-			if (status) {
-				serial.printf("(KEYPAD) IRQ pin: %d Buffer: %d Delay %d", keypad_configuration.irq_pin, keypad_configuration.ring_buff_cnt, keypad_configuration.reporting_delay);
+			if (status) {				
 				finish_config(&keypad_configuration);
 			}
 			else {

@@ -13,8 +13,8 @@ message KeypadConfig{
 	}
 	repeated KeyConfig key_configuration = 1;
 	required uint32 irq_pin = 2;
-	optional uint32 ring_buff_cnt = 3 [default = 10];
-	optional uint32 reporting_delay = 4 [default = 50000];	
+	required uint32 ring_buff_cnt = 3 [default = 5];
+	required uint32 reporting_delay = 4 [default = 50000];	
 }
 
 

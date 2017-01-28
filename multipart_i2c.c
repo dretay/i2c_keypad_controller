@@ -6,15 +6,15 @@ bool encode_multipartmessage(pb_ostream_t *stream, const pb_field_t messagetype[
 	const pb_field_t *field;
 	for (field = MultipartMessage_fields; field->tag != 0; field++) {
 		if (field->ptr == messagetype) {
-		    /* This is our field, encode the message using it. */
+			/* This is our field, encode the message using it. */
 			if (!pb_encode_tag_for_field(stream, field)) {
 				return false;
 			}
-            
+
 			return pb_encode_submessage(stream, messagetype, message);
 		}
 	}
-    
+
 	/* Didn't find the field for messagetype */
 	return false;
 }
@@ -67,7 +67,7 @@ bool send_multipart_config(void* i2c_instance, uint8_t bytes_written, uint8_t *i
 	multipart_message_config.word_size = MAX_I2C_MSG;
 	my_multipart_message_stream = pb_ostream_from_buffer(i2c_message_buffer, MAX_I2C_BUFFER);
 	if (!encode_multipartmessage(&my_multipart_message_stream, MultipartMessageConfig_fields, &multipart_message_config)) {
-		return false;		
+		return false;
 	}
 	return i2c_tx(i2c_instance, i2c_address, i2c_message_buffer, my_multipart_message_stream.bytes_written);
 }
@@ -96,32 +96,32 @@ bool send_multipart_message(void* i2c_instance, pb_ostream_t *multipart_message_
 //sends a pb object over i2c to a specified address
 bool send_i2c_msg(void* pb_msg, void* i2c_instance, const pb_field_t pb_msg_fields[], uint8_t i2c_address) {
 	pb_ostream_t multipart_message_stream;
-	uint8_t i2c_message_buffer[MAX_I2C_BUFFER] = { 0 };	
+	uint8_t i2c_message_buffer[MAX_I2C_BUFFER] = { 0 };
 
 	//encode once to get the size of the keypad config object and use the stream to setup a multipart message
 	multipart_message_stream = pb_ostream_from_buffer(i2c_message_buffer, MAX_I2C_BUFFER);
 	if (!encode_multipartmessage(&multipart_message_stream, pb_msg_fields, pb_msg)) {
-		return false;		
-	}	
-	/*
+		return false;
+	}
+
 	//if the message is too big to send in a single go, break up into a multipart message
 	if (multipart_message_stream.bytes_written > MAX_I2C_MSG) {
 		//send a configuration message indicating the size of the message to be transmitted
 		if (!send_multipart_config(i2c_instance, multipart_message_stream.bytes_written, i2c_message_buffer, i2c_address)) {
 			return false;
 		}
-	
+
 		//re-encode the keypad config - could save this step if we just used 2 buffers but w/e
 		multipart_message_stream = pb_ostream_from_buffer(i2c_message_buffer, MAX_I2C_BUFFER);
 		if (!encode_multipartmessage(&multipart_message_stream, KeypadConfig_fields, pb_msg)) {
-			return false;		
+			return false;
 		}
 	}
 
 	//send the actual message
 	if (!send_multipart_message(i2c_instance, &multipart_message_stream, i2c_message_buffer, i2c_address)) {
 		return false;
-	}*/
+	}
 
 	return true;
 }
