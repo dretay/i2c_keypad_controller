@@ -103,7 +103,7 @@ bool send_i2c_msg(void* pb_msg, void* i2c_instance, const pb_field_t pb_msg_fiel
 	if (!encode_multipartmessage(&multipart_message_stream, pb_msg_fields, pb_msg)) {
 		return false;		
 	}	
-
+	/*
 	//if the message is too big to send in a single go, break up into a multipart message
 	if (multipart_message_stream.bytes_written > MAX_I2C_MSG) {
 		//send a configuration message indicating the size of the message to be transmitted
@@ -121,7 +121,7 @@ bool send_i2c_msg(void* pb_msg, void* i2c_instance, const pb_field_t pb_msg_fiel
 	//send the actual message
 	if (!send_multipart_message(i2c_instance, &multipart_message_stream, i2c_message_buffer, i2c_address)) {
 		return false;
-	}
+	}*/
 
 	return true;
 }

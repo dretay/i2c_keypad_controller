@@ -126,6 +126,9 @@ void receiveCallback(int in_byte_cnt) {
 		}
 	}
 }
+
+//this is irq driven and needs to happen too quickly to mess around with serialization, so 
+//just send the raw uint16 back 
 void requestCallback() {
 	uint8_t buffer[2];
 	uint16_t state;

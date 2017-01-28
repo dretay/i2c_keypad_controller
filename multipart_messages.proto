@@ -26,4 +26,5 @@ message MultipartMessageConfig{
 message MultipartMessage{
 	optional KeypadConfig keypad_config = 1;
 	optional MultipartMessageConfig multipart_message_config = 2;
+	optional KeypadState keypad_state = 3;
 }
